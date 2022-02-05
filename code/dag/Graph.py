@@ -141,3 +141,52 @@ print(graph.add_reachable(more_reachable, new_vertice, 0))
 
 
 print(graph.vertex_with_maxpaths_from_source('0'))
+
+
+
+import unittest
+
+class My_tests(unittest.TestCase):
+
+    data = "{0, 1, 2},{0, 2, 4},{0, 4, -2},{0, 5, 1},{0, 6, 5},{2, 3, 3},{2, 4, 2},{3, 8, -4},{4, 3, 5},{4, 8, 1},{4, 7, 2},{5, 7, -1},{5, 8, -3},{6, 7, 6},{7, 8, 2}"
+    
+
+    def test_adding_input(self):
+        graph = Graph()
+        graph = read_data(graph, data)        
+        self.assertEqual(False, len(graph.nodes) == 7);
+
+    def test_adding_input2(self):
+        graph = Graph()
+        graph = read_data(graph, data)     
+        self.assertEqual(True, len(graph.nodes) == 9);
+
+    def test_check_adjacency(self):
+        graph = Graph()
+        graph = read_data(graph, data)     
+        self.assertEqual(True, '6' in graph.edges['0']);
+
+    def test_check_weight(self):
+        graph = Graph()
+        graph = read_data(graph, data)     
+        self.assertFalse(graph.weights[('0', '6')] != 5);
+
+    def test_check_weight2(self):
+        graph = Graph()
+        graph = read_data(graph, data)     
+        self.assertTrue(graph.weights[('0', '6')] == 5);
+
+    def test_check_weight2(self):
+        graph = Graph()
+        graph = read_data(graph, data)     
+        self.assertTrue(graph.weights[('0', '6')] == 5);
+
+    def test_check_max_cost_paths(self):
+        graph = Graph()
+        graph = read_data(graph, data)
+        paths = graph.get_paths('0', '8', True)
+        max_cost = max([path[1] for path in paths])             
+        self.assertEqual(True, max_cost == paths[0][1]);        
+
+if __name__ == '__main__':    
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
