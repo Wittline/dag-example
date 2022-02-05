@@ -8,9 +8,7 @@ class Graph:
         self.nodes = set()
         self.edges = defaultdict(list)
         self.weights = {}
-        self.f = {}
-        self.paths = []
-    
+
     def addNode(self,value):
         if not value in self.nodes:
             self.nodes.add(value)    
@@ -91,13 +89,33 @@ class Graph:
     
     def vertex_with_maxpaths_from_source(self, source):
 
-        nodes = sorted(graph.nodes)
+        nodes = sorted(self.nodes)
         max_paths =  -1 
         vertice_max_paths = 0
 
         for i in range(1, len(self.nodes)):
-            np = graph.countPaths('0', nodes[i])
+            np = self.countPaths('0', nodes[i])
             if np > max_paths:
                 vertice_max_paths = nodes[i]
         
         return vertice_max_paths
+
+    
+    def add_reachable(self, v, v_n, weight):
+        self.addNode(v_n)
+        self.addEdge(v, v_n, 1)
+        return v, v_n, weight
+
+    
+    def read_data(self, data):
+        values = data.replace('},{', ';')
+        data = values[1:-1].split(';')
+        for d in data:
+            nodes_weight = d.split(',')
+            node1  = nodes_weight[0].strip()
+            node2  = nodes_weight[1].strip()
+            weight = nodes_weight[2].strip()
+            graph.addNode(node1)
+            graph.addNode(node2)
+            graph.addEdge(node1, node2, int(weight))
+
