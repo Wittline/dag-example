@@ -115,7 +115,9 @@ class Graph:
             node1  = nodes_weight[0].strip()
             node2  = nodes_weight[1].strip()
             weight = nodes_weight[2].strip()
-            graph.addNode(node1)
-            graph.addNode(node2)
-            graph.addEdge(node1, node2, int(weight))
+            self.addNode(node1)
+            self.addNode(node2)
+            self.addEdge(node1, node2, int(weight))
+        
+        return self
 
