@@ -16,11 +16,7 @@ class Graph:
     def addEdge(self, fromn, ton, weight):
         self.edges[fromn].append(ton)
         self.weights[(fromn, ton)] = weight
-
-        if ton in self.f.keys():
-            self.f[ton] += 1
-        else:
-            self.f[ton] = 1
+        
 
     def cost_path(self, path):
         cost = 0
@@ -106,18 +102,42 @@ class Graph:
         self.addEdge(v, v_n, 1)
         return v, v_n, weight
 
-    
-    def read_data(self, data):
-        values = data.replace('},{', ';')
-        data = values[1:-1].split(';')
-        for d in data:
-            nodes_weight = d.split(',')
-            node1  = nodes_weight[0].strip()
-            node2  = nodes_weight[1].strip()
-            weight = nodes_weight[2].strip()
-            self.addNode(node1)
-            self.addNode(node2)
-            self.addEdge(node1, node2, int(weight))
-        
-        return self
 
+def read_data(graph, data):
+    values = data.replace('},{', ';')
+    data = values[1:-1].split(';')
+    for d in data:
+        nodes_weight = d.split(',')
+        node1  = nodes_weight[0].strip()
+        node2  = nodes_weight[1].strip()
+        weight = nodes_weight[2].strip()
+        graph.addNode(node1)
+        graph.addNode(node2)
+        graph.addEdge(node1, node2, int(weight))
+    return graph
+
+
+graph = Graph()
+data = "{0, 1, 2},{0, 2, 4},{0, 4, -2},{0, 5, 1},{0, 6, 5},{2, 3, 3},{2, 4, 2},{3, 8, -4},{4, 3, 5},{4, 8, 1},{4, 7, 2},{5, 7, -1},{5, 8, -3},{6, 7, 6},{7, 8, 2}"
+
+graph = read_data(graph, data)
+
+print(graph.nodes)
+print(graph.edges)
+print(graph.weights)
+
+
+more_reachable= graph.vertex_with_maxpaths_from_source('0')
+print(more_reachable)
+
+paths = graph.get_paths('0', more_reachable, True)
+
+for path in paths:
+    print("The path:", path[0], "cost:", path[1])
+
+
+new_vertice = '9'
+print(graph.add_reachable(more_reachable, new_vertice, 0))
+
+
+print(graph.vertex_with_maxpaths_from_source('0'))
